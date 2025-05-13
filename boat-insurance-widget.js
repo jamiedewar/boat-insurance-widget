@@ -1,4 +1,3 @@
-
 class BoatInsuranceForm extends HTMLElement {
   constructor() {
     super();
@@ -22,7 +21,6 @@ class BoatInsuranceForm extends HTMLElement {
     link.rel = "stylesheet";
     link.href = "https://insurance.toyloan.com/wp-content/plugins/legend-insurance-api/css/lbapi.css";
 
-    // Inject a loader in case API takes time
     const loading = document.createElement("div");
     loading.textContent = "Loading quote tool...";
     loading.style.padding = "20px";
@@ -33,7 +31,6 @@ class BoatInsuranceForm extends HTMLElement {
     this.shadowRoot.appendChild(container);
     container.appendChild(loading);
 
-    // Load the existing form and script
     const script = document.createElement("script");
     script.src = "https://insurance.toyloan.com/wp-content/plugins/legend-insurance-api/js/lbapi.js";
     script.onload = () => {
@@ -41,27 +38,22 @@ class BoatInsuranceForm extends HTMLElement {
         .then(res => res.text())
         .then(html => {
           container.innerHTML = html;
-
-          // Inject tracking field
           const dealerInput = document.createElement("input");
           dealerInput.type = "hidden";
           dealerInput.name = "dealer";
           dealerInput.value = dealer;
-
           const form = container.querySelector("form");
           if (form) form.appendChild(dealerInput);
 
-          // Fire tracking event
           if (window.dataLayer) {
-            dataLayer.push({ event: "quoteWidgetLoaded", dealer });
+            window.dataLayer.push({ event: "quoteWidgetLoaded", dealer });
           }
-
-        }).catch(err => {
+        })
+        .catch(err => {
           container.innerHTML = "<p>Failed to load quote form. Please try again later.</p>";
         });
     };
     document.head.appendChild(script);
   }
 }
-
 customElements.define("boat-insurance-form", BoatInsuranceForm);
