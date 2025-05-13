@@ -3,21 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <title>Boat Insurance Quote Demo</title>
-  <script type="module" src="./boat-insurance-widget.js"></script>
+  <script type="module" src="boat-insurance-widget.js" defer></script>
   <style>
-    body {
-      font-family: sans-serif;
-      padding: 40px;
-    }
-    boat-insurance-form {
-      display: block;
-      max-width: 500px;
-      margin: 0 auto;
-    }
+    body { font-family: sans-serif; padding: 40px; }
+    boat-insurance-form { display: block; max-width: 500px; margin: 0 auto; }
   </style>
 </head>
 <body>
   <h1>Test the Embedded Boat Insurance Widget</h1>
-  <boat-insurance-form dealer="legend-demo" theme="light" primary_color="#00adef"></boat-insurance-form>
+  <boat-insurance-form dealer="legend-demo" theme="light" primary-color="#00adef"></boat-insurance-form>
 </body>
 </html>

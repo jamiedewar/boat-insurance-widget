@@ -15,45 +15,25 @@ class BoatInsuranceForm extends HTMLElement {
       font-family: 'Montserrat', sans-serif;
       border-radius: 8px;
       overflow: hidden;
+      border: 2px solid \${primaryColor};
+      padding: 20px;
+      background: \${theme === "dark" ? "#222" : "#f9f9f9"};
+      color: \${theme === "dark" ? "#fff" : "#000"};
     \`;
 
-    const link = document.createElement("link");
-    link.rel = "stylesheet";
-    link.href = "https://insurance.toyloan.com/wp-content/plugins/legend-insurance-api/css/lbapi.css";
+    container.innerHTML = \`
+      <h2>Mock Boat Insurance Quote Form</h2>
+      <p>Dealer: \${dealer}</p>
+      <p>This is a mock version of the form for testing.</p>
+      <form>
+        <label>Boat Value: <input type="number" placeholder="Enter value" /></label><br/><br/>
+        <label>Postal Code: <input type="text" placeholder="Enter postal code" /></label><br/><br/>
+        <button type="submit">Get Quote</button>
+      </form>
+    \`;
 
-    const loading = document.createElement("div");
-    loading.textContent = "Loading quote tool...";
-    loading.style.padding = "20px";
-    loading.style.textAlign = "center";
-    loading.style.color = primaryColor;
-
-    this.shadowRoot.appendChild(link);
     this.shadowRoot.appendChild(container);
-    container.appendChild(loading);
-
-    const script = document.createElement("script");
-    script.src = "https://insurance.toyloan.com/wp-content/plugins/legend-insurance-api/js/lbapi.js";
-    script.onload = () => {
-      fetch("https://insurance.toyloan.com/wp-admin/admin-ajax.php?action=render_quote_form")
-        .then(res => res.text())
-        .then(html => {
-          container.innerHTML = html;
-          const dealerInput = document.createElement("input");
-          dealerInput.type = "hidden";
-          dealerInput.name = "dealer";
-          dealerInput.value = dealer;
-          const form = container.querySelector("form");
-          if (form) form.appendChild(dealerInput);
-
-          if (window.dataLayer) {
-            window.dataLayer.push({ event: "quoteWidgetLoaded", dealer });
-          }
-        })
-        .catch(err => {
-          container.innerHTML = "<p>Failed to load quote form. Please try again later.</p>";
-        });
-    };
-    document.head.appendChild(script);
   }
 }
+
 customElements.define("boat-insurance-form", BoatInsuranceForm);
